@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>MapCanvas DEMO</title>
+
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.css' rel='stylesheet' />
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.js'></script>
+    <script src='/lCanvas.js'></script>
+</head>
+<body>
+
+    <div id="myMap" style="width:400px; height:400px"></div>
+
+    <script>
+
+        window.onload= function() {
+
+            var map = L.mapbox.map('myMap', 'jachaos.iajphb4n'),
+                layerCanvas = new lCanvas('name');
+
+                // add the layer to the map
+                map.addLayer(layerCanvas);
+
+                // add as many points as you want to the MapCanvas
+                // this example will add one point for each lat/lng coordinate
+
+                for (var lat = -89; lat < 90; lat++) {
+
+                    for (var lng = -179; lng < 180; lng++) {
+
+                        layerCanvas.addPoint(L.latLng(lat, lng));
+
+                    }
+
+                }
+
+                layerCanvas.drawn();
+        }
+    </script>
+
+</body>
+</html>
