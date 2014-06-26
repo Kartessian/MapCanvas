@@ -32,7 +32,7 @@ var lCanvas = L.Class.extend({
     },
 
     _reset: function () {
-        this.drawn();
+        this.draw();
     }
 });
 
@@ -45,7 +45,7 @@ lCanvas.prototype.cleanPoints = function () {
     this._points = [];
 }
 
-lCanvas.prototype.drawn = function () {
+lCanvas.prototype.draw = function () {
 
     /* could be that the canvas is not created yet */
     if (this._canvas == null) {
