@@ -4,7 +4,7 @@ var lCanvas = L.Class.extend({
         this._canvas = null;
         this._points = [];
         this._pointType = 'simple';
-        this._pointSize = 9;
+        this._pointSize = 6;
     },
 
     onAdd: function (map) {
@@ -25,6 +25,7 @@ var lCanvas = L.Class.extend({
 
     onRemove: function (map) {
         // remove layer's DOM elements and listeners
+        alert("removing");
         map.off('moveend', this._reset, this);
         map.getPanes().overlayPane.removeChild(this._el);
         this._canvas.parentNode.removeChild(this.canvas_);
@@ -32,7 +33,7 @@ var lCanvas = L.Class.extend({
     },
 
     _reset: function () {
-        this._drawn();
+        this.drawn();
     }
 });
 
@@ -47,8 +48,13 @@ lCanvas.prototype.cleanPoints = function () {
 
 lCanvas.prototype.drawn = function () {
 
+    /* could be that the canvas is not created yet */
+    if (this._canvas == null) {
+        return;
+    }
+
     var map = this._map,
-        canvas = this.canvas_,
+        canvas = this._canvas,
         mapbounds = map.getBounds(),
         sw = map.latLngToLayerPoint(mapbounds._southWest),
         ne = map.latLngToLayerPoint(mapbounds._northEast),
@@ -71,11 +77,11 @@ lCanvas.prototype.drawn = function () {
 
     switch (this._pointType) {
         case 'simple':
-            this.drawSimpleDot(hiddenCanvas, mapbounds, overlayProjection, sw, ne);
+            this.drawSimpleDot(hiddenCanvas, mapbounds, map, sw, ne);
             break;
     }
     // there is always the posibility to not use a switch and call directly the function
-    // this[this._potinType](hiddenCanvas, mapbounds, overlayProjection, sw, ne);
+    // this[this._potinType](hiddenCanvas, mapbounds, map, sw, ne);
 
     var ctx = canvas.getContext("2d");
     ctx.drawImage(hiddenCanvas, 0, 0);
@@ -83,17 +89,17 @@ lCanvas.prototype.drawn = function () {
 }
 
 /* Point Drawing implementation */
-lCanvas.prototype.drawSimpleDot = function (hiddenCanvas, mapbounds, overlayProjection, sw, ne) {
+lCanvas.prototype.drawSimpleDot = function (hiddenCanvas, mapbounds, map, sw, ne) {
 
     /* create the dot once, it will be then used for all the dots */
     var dotCanvas = document.createElement("canvas");
     dotCanvas.width = this._pointSize;
     dotCanvas.height = this._pointSize;
 
-    var dotContext = canvas.getContext("2d");
-    dotContext.globalAlpha = alpha / 255;
+    var dotContext = dotCanvas.getContext("2d");
+    dotContext.globalAlpha = 1,
     dotContext.beginPath();
-    dotContext.arc(size / 2, size / 2, size / 2, 0, 2 * Math.PI, false);
+    dotContext.arc(this._pointSize / 2, this._pointSize / 2, this._pointSize / 2, 0, 2 * Math.PI, false);
     dotContext.fillStyle = '#ff0000';
     dotContext.fill();
     dotContext.lineWidth = 1;
@@ -110,10 +116,12 @@ lCanvas.prototype.drawSimpleDot = function (hiddenCanvas, mapbounds, overlayProj
 
     for (var i = 0, points = this._points, len = points.length; i < len; i++) {
 
-        if (mapbounds.contains(points)) { // draw only visible points
-            
+        var ltlng = points[i];
+
+        if (mapbounds.contains(ltlng)) { // draw only visible points
+
             // convert lat/lng coordinates to x/y and adjust the position in the canvas
-            var layerPointPosition = overlayProjection.latLngToLayerPoint(ltlng);
+            var layerPointPosition = map.latLngToLayerPoint(ltlng);
 
             hiddenContext.drawImage(
                     dotCanvas,
