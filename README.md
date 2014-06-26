@@ -51,3 +51,37 @@ window.onload = function() {
 }
 
 ```
+
+### Extensions
+
+In the lCanvas.js file is defined only the plain point type. You can extend the type of points by including the lCanvas.dotType.[typeName].js files available here or creating your own ones.
+
+If you use the current version of lCanvas.js you will need to update the code to include the new types:
+
+```js
+
+  switch (this._pointType) {
+        case 'simple':
+            this.drawSimpleDot(hiddenCanvas, mapbounds, map, sw, ne);
+            break;
+        case 'heatmap':
+            this.drawSimpleHeat(hiddenCanvas, mapbounds, map, sw, ne);
+            break;
+  }
+
+  // there is always the posibility to not use a switch and call directly the function, 
+  // but I will let you do that part.
+  // this[this._potinType](hiddenCanvas, mapbounds, map, sw, ne);
+
+```
+
+Once you are ready you just specify the point type you want to use, and draw() it again.
+
+```js
+
+    layerCanvas._pointType = 'heatmap';
+
+    layerCanvas.draw();
+
+
+```
