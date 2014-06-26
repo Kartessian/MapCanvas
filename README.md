@@ -1,11 +1,11 @@
 MapCanvas
 =========
 
-This folder contains the core drawing functionallity of Kartessian using Mapbox.
+This folder contains the core drawing functionallity of [Kartessian](http://www.kartessian.com) using [Mapbox](http://www.mapbox.com).
 
 Please note that this repository is intended as an example of Kartessian methods and techniques and how they are being used in the project, not the original source code (not yet).
 
-There is no need of third party libraries except for [Mapbox.js](https://github.com/mapbox/mapbox.js/)
+There is no need of third party libraries except for [Mapbox.js](https://github.com/mapbox/mapbox.js/). Don't forget to get your [Map ID](https://www.mapbox.com/developers/) before start using the Mapbox service.
 
 ### Example
 
