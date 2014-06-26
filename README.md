@@ -83,5 +83,4 @@ Once you are ready you just specify the point type you want to use, and draw() i
 
     layerCanvas.draw();
 
-
 ```
