@@ -25,7 +25,6 @@ var lCanvas = L.Class.extend({
 
     onRemove: function (map) {
         // remove layer's DOM elements and listeners
-        alert("removing");
         map.off('moveend', this._reset, this);
         map.getPanes().overlayPane.removeChild(this._el);
         this._canvas.parentNode.removeChild(this.canvas_);
