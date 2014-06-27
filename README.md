@@ -7,6 +7,8 @@ Please note that this repository is intended as an example of Kartessian methods
 
 There is no need of third party libraries except for [Mapbox.js](https://github.com/mapbox/mapbox.js/). Don't forget to get your [Map ID](https://www.mapbox.com/developers/) before start using the Mapbox service.
 
+Do you want to know more? Take a look at the [wiki](https://github.com/Kartessian/MapCanvas/wiki)
+
 ### Example
 
 Include lCanvas.js after Mapbox.js
