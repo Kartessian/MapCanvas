@@ -69,7 +69,7 @@ You can add and remove points from existing layers after adding it to the canvas
 
 **K**
 
-**_Methods_**
+_Methods_
 
 **.init(options)**
 
@@ -103,8 +103,8 @@ Removes the specified layer from the canvas
 |layerId|Number|Id of the layer to be removed|
 
 
-
 ---
+
 
 **K.Layer( name, style)**
 
@@ -113,7 +113,7 @@ Removes the specified layer from the canvas
 |name|String|Name of the layer|
 |style|Object|Style definition of the layer|
 
-**_Methods_**
+_Methods_
 
 **.addPoint(point)**
 
@@ -147,6 +147,10 @@ Being the options a valid object, set the value of all the properties in the obj
 |Option|Type|Description|
 |---|---|---|
 |options|Object|Object to use to set the properties based on it's attributes|
+
+
+---
+
 
 **K.Point (lat, lng, properties)**
 
