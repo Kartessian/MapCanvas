@@ -77,11 +77,12 @@ Initializes the component
 
 |Option|Type|Description|
 |---|---|---|
-|option|Object|Object containing the mapbox setup.
-It can be done in two ways:
-1. { "map": referenceToMapBoxMap }
+|option|Object|Object containing the mapbox setup.|
+
+It can be used in two ways:
+1. { "map": referenceToMapBoxMap } _same as the example_
 2. { "token" : "yourAccessToken", "div" : "mapContainerId", "key" : "yourMapboxMapId" }
-|
+
 
 **.addLayer(layer)**
 
