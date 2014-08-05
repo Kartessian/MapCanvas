@@ -3,19 +3,19 @@ MapCanvas
 
 This folder contains the core drawing functionallity of [Kartessian](http://www.kartessian.com) using [Mapbox](http://www.mapbox.com).
 
-Please note that this repository is intended as an example of Kartessian methods and techniques and how they are being used in the project, not the original source code (not yet).
 
-There is no need of third party libraries except for [Mapbox.js](https://github.com/mapbox/mapbox.js/). Don't forget to get your [Map ID](https://www.mapbox.com/developers/) before start using the Mapbox service.
+There is no need of third party libraries except for [Mapbox.js](https://www.mapbox.com/mapbox.js/api/v2.0.0/). Don't forget to obtain your [Map ID](https://www.mapbox.com/developers/) and [Access Token](https://www.mapbox.com/developers/api/) before start using the Mapbox service.
 
 Do you want to know more? Take a look at the [wiki](https://github.com/Kartessian/MapCanvas/wiki)
 
 ### Example
 
-Include lCanvas.js after Mapbox.js
+Include ktsn.lf.canvas.js after Mapbox.js
 
 ```html
-<script src="scripts/mapbox.js"></script>
-<script src="scripts/lCanvas.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.0/mapbox.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.0/mapbox.css' rel='stylesheet' />
+    <script src="ktsn.lf.canvas.js"></script>
 ```
 
 Create a div where your map to be displayed
@@ -30,11 +30,20 @@ Initialize the map and the MapCanvas.
 
 window.onload = function() {
 
-  var map = L.mapbox.map('myMap', 'yourMaboxKey'),
-      layerCanvas = new lCanvas('canvasName');
+  L.mapbox.accessToken = 'yourAccesstoken';
+  var map = L.mapbox.map('myMap', 'yourMaboxKey');
 
-    // add the layer to the map
-    map.addLayer(layerCanvas);
+  // initialize the plugin
+  K.init(map);
+  
+  // create a new layer
+  var newLayer = new K.Layer("name", 
+    { type: 'plain',
+      alpha: 255, 
+      fillColor: { hex: '#ff0000', r: 255, g: 0, b: 0 }, 
+      borderColor: { hex: '#ff0000', r: 255, g: 0, b: 0 }, 
+      pointSize: 7
+    });
 
     // add as many points as you want to the MapCanvas
     // this example with add one point for each lat/lng coordinate
@@ -42,47 +51,106 @@ window.onload = function() {
     for (var lat = -89; lat < 90; lat++) {
 
         for (var lng = -179; lng < 180; lng++) {
-
-            layerCanvas.addPoint(L.latLng(lat, lng));
-
+            newLayer.addPoint(new K.Point(lat, lng));
         }
 
     }
 
-    layerCanvas.draw();
+    // finally add the layer to the plugin
+    K.addLayer(newLayer);
 }
 
 ```
 
-### Extensions
+You can add and remove points from existing layers after adding it to the canvas, just reference your layer and use the addPoint and removePoints methods.
 
-In the lCanvas.js file is defined only the plain point type. You can extend the type of points by including the lCanvas.dotType.[typeName].js files available here or creating your own ones.
 
-If you use the current version of lCanvas.js you will need to update the code to include the new types:
+### API (working on this)
 
-```js
+**K**
 
-  switch (this._pointType) {
-        case 'simple':
-            this.drawSimpleDot(hiddenCanvas, mapbounds, map, sw, ne);
-            break;
-        case 'heatmap':
-            this.drawSimpleHeat(hiddenCanvas, mapbounds, map, sw, ne);
-            break;
-  }
+**_Methods_**
 
-  // there is always the posibility to not use a switch and call directly the function, 
-  // but I will let you do that part.
-  // this[this._potinType](hiddenCanvas, mapbounds, map, sw, ne);
+**.init(options)**
 
-```
+Initializes the component
 
-Once you are ready you just specify the point type you want to use, and draw() it again.
+|Option|Type|Description|
+|---|---|---|
+|option|Object|Object containing the mapbox setup.
+It can be done in two ways:
+1. { "map": referenceToMapBoxMap }
+2. { "token" : "yourAccessToken", "div" : "mapContainerId", "key" : "yourMapboxMapId" }
+|
 
-```js
+**.addLayer(layer)**
 
-    layerCanvas._pointType = 'heatmap';
+|Option|Type|Description|
+|---|---|---|
+|layer|K.Layer|Add the layer to the canvas|
 
-    layerCanvas.draw();
+**.destroy()**
 
-```
+Destroys the layer object, removes all elements from the DOM
+
+**.removeLayer(layerId)**
+
+Removes the specified layer from the canvas
+
+|Option|Type|Description|
+|---|---|---|
+|layerId|Number|Id of the layer to be removed|
+
+
+
+---
+
+**K.Layer( name, style)**
+
+|Option|Type|Description|
+|---|---|---|
+|name|String|Name of the layer|
+|style|Object|Style definition of the layer|
+
+**_Methods_**
+
+**.addPoint(point)**
+
+Add a single point to the layer
+
+|Option|Type|Description|
+|---|---|---|
+|point|L.Point|Point to add to the layer|
+
+**.addRange(range)**
+
+Add a range of points into the layer
+
+|Option|Type|Description|
+|---|---|---|
+|range|Array of L.Point|Array containing points to be added to the layer|
+
+**.set(option, value)**
+
+Set the value of the specified property
+
+|Option|Type|Description|
+|---|---|---|
+|option|String|Name of the property|
+|value|Object|Value of the property|
+
+**.set(options)**
+
+Being the options a valid object, set the value of all the properties in the object
+
+|Option|Type|Description|
+|---|---|---|
+|options|Object|Object to use to set the properties based on it's attributes|
+
+**K.Point (lat, lng, properties)**
+
+|Option|Type|Description|
+|---|---|---|
+|lat|Number|Latitude|
+|lng|Number|Longitude|
+|properties|Object (optional)|Properties of the point|
