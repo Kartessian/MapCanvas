@@ -1,14 +1,14 @@
 MapCanvas
 =========
 
-This folder contains the core drawing functionallity of [Kartessian](http://www.kartessian.com) using [Mapbox](http://www.mapbox.com).
+This folder contains the core drawing functionallity of [Kartessian](http://www.kartessian.com) using [Mapbox](http://www.mapbox.com) and [Google Maps](https://developers.google.com/maps/web/).
 
 
 There is no need of third party libraries except for [Mapbox.js](https://www.mapbox.com/mapbox.js/api/v2.0.0/). Don't forget to obtain your [Map ID](https://www.mapbox.com/developers/) and [Access Token](https://www.mapbox.com/developers/api/) before start using the Mapbox service.
 
 Do you want to know more? Take a look at the [wiki](https://github.com/Kartessian/MapCanvas/wiki)
 
-### Example
+### Mapbox
 
 Include ktsn.lf.canvas.js after Mapbox.js
 
@@ -36,6 +36,53 @@ window.onload = function() {
   // initialize the plugin
   K.init(map);
   
+}
+
+```
+
+### Google Maps
+
+Include ktsn.gm.canvas.js after the Google Maps script
+
+```html
+    <script src="//maps.googleapis.com/maps/api/js?key=[yerAPIkeyhere]&sensor=false"></script>
+    <script src="ktsn.gm.canvas.js"></script>
+```
+
+Create a div where your map to be displayed
+
+```html
+<div id="myMap" style="width:400px; height:400px"></div>
+```
+
+Initialize the map and the MapCanvas.
+
+```js
+
+window.onload = function() {
+  var mapOptions = {
+    center: new google.maps.LatLng(37.72658651203338, 264.55766830232244)
+    , zoom: 4
+    , mapTypeId: google.maps.MapTypeId.ROADMAP
+    , mapTypeControl: false
+    , streetViewControl: false
+    , panControl: false
+    , zoomControl: false
+  };
+
+  // initialize the plugin
+  K.init({ map: new google.maps.Map(document.getElementById("myMap"), mapOptions) });
+
+}
+
+```
+
+### Start adding points
+
+Once you initiated the plugin for Mapbox or Googgle Maps, the functionallity is the same for both of them.
+
+```js
+
   // create a new layer
   var newLayer = new K.Layer("name", 
     { type: 'plain',
@@ -58,14 +105,11 @@ window.onload = function() {
 
     // finally add the layer to the plugin
     K.addLayer(newLayer);
-}
-
 ```
 
 You can add and remove points from existing layers after adding it to the canvas, just reference your layer and use the addPoint and removePoints methods.
 
-
-### API (working on this)
+### API (in progress...)
 
 **K**
 
@@ -77,12 +121,17 @@ Initializes the component
 
 |Option|Type|Description|
 |---|---|---|
-|option|Object|Object containing the mapbox setup.|
+|option|Object|Object containing the mapbox or google maps setup.|
 
-It can be used in two ways:
-1. { "map": referenceToMapBoxMap } _same as the example_
-2. { "token" : "yourAccessToken", "div" : "mapContainerId", "key" : "yourMapboxMapId" }
+1. Mapbox
+  It can be used in two ways:
+  1. { "map": referenceToMapBoxMap } _same as the example_
+  2. { "token" : "yourAccessToken", "div" : "mapContainerId", "key" : "yourMapboxMapId" }
 
+2. Google Maps
+  It can be used in two ways:
+  1. { "map": referenceToGoogleMapsObject } _same as the example_
+  2. { "div" : "mapContainerId", "options" : { object with google maps options } }
 
 **.addLayer(layer)**
 
