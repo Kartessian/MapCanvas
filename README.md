@@ -10,7 +10,7 @@ Do you want to know more? Take a look at the [wiki](https://github.com/Kartessia
 
 ### Mapbox
 
-Include ktsn.lf.canvas.js after Mapbox.js (23Kb &raquo; 5.5Kb minified)
+Include [ktsn.lf.canvas.js](https://raw.githubusercontent.com/Kartessian/MapCanvas/master/ktsn.lf.canvas.js) _(23Kb &raquo; 5.5Kb [minified](https://raw.githubusercontent.com/Kartessian/MapCanvas/master/ktsn.lf.canvas.min.js))_ after Mapbox.js
 
 ```html
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.0/mapbox.js'></script>
@@ -42,7 +42,7 @@ window.onload = function() {
 
 ### Google Maps
 
-Include ktsn.gm.canvas.js after the Google Maps script (26.7Kb &raquo; 9.7Kb minified)
+Include [ktsn.gm.canvas.js](https://raw.githubusercontent.com/Kartessian/MapCanvas/master/ktsn.gm.canvas.js) _(26.7Kb &raquo; 9.7Kb [minified](https://raw.githubusercontent.com/Kartessian/MapCanvas/master/ktsn.gm.canvas.min.js))_ after the Google Maps script
 
 ```html
     <script src="//maps.googleapis.com/maps/api/js?key=[yerAPIkeyhere]&sensor=false"></script>
